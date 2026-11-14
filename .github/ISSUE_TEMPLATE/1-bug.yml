@@ -1,0 +1,47 @@
+# Filing through the API or `gh issue create`? Forms only apply on the web:
+# write the body with each field's label below as a `### ` heading, in order.
+name: Wrong or broken theme
+description: A color that differs from the spec, a layout that breaks, or rofi rejecting the theme.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        mistpine.rofi follows the [mistpine spec](https://github.com/mistpine/mistpine/blob/main/docs/spec.md).
+        A color that differs from the spec is a bug here; a spec color you'd like
+        changed belongs in [mistpine](https://github.com/mistpine/mistpine/issues/new/choose).
+        Black corners on X11 without a compositor are expected: see the README.
+  - type: textarea
+    id: what
+    attributes:
+      label: What's wrong
+      description: What you see, where (a mode such as drun or dmenu, the prompt, a row state, a message), and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: Drag an image here.
+  - type: textarea
+    id: config
+    attributes:
+      label: rofi config
+      description: "Your `~/.config/rofi/config.rasi`, or the output of `rofi -dump-config`."
+      render: css
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: "`rofi -v`, X11 or Wayland (and the compositor), the distribution, and where the theme file came from (curl, a clone at some commit)."
+      render: text
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I'm using the latest `themes/` from main.
+          required: true
+        - label: "`rofi -dump-theme` prints no warnings."

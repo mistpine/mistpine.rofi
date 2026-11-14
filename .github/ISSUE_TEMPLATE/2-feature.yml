@@ -1,0 +1,30 @@
+# Filing through the API or `gh issue create`? Forms only apply on the web:
+# write the body with each field's label below as a `### ` heading, in order.
+name: Widget or feature
+description: A rofi widget or mode the theme should style, or a new rofi release to support.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The theme sets colors and layout. Fonts, icons, modes and keybindings
+        stay in your own config.
+  - type: input
+    id: widgets
+    attributes:
+      label: rofi widgets or modes
+      placeholder: "overlay, sidebar, filebrowser"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: rofi version that added them
+      description: A link to the release notes or rofi-theme(5) helps.
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: What looks off without them, and which spec colors you think they should use.
+    validations:
+      required: true

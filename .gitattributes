@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.png binary
+*.ttf binary
+
+# Generated: review scripts/generate.ts and src/layout.rasi instead.
+themes/** linguist-generated
+assets/** linguist-generated
