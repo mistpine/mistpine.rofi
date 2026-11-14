@@ -1,0 +1,229 @@
+/*
+ * The mistpine layout. scripts/generate.ts puts the colors block from
+ * themes/mistpine-colors.rasinc in front of it to make themes/mistpine.rasi.
+ *
+ * Colors only through var(): no hex here, so every color comes from the spec.
+ * Sizes are in em, so the layout follows your font (set it in config.rasi).
+ */
+
+* {
+    mistpine-width:  40em;
+    mistpine-radius: 8px;
+
+    background-color: transparent;
+    text-color:       var(foreground);
+}
+
+window {
+    location:         center;
+    anchor:           center;
+    width:            var(mistpine-width);
+    border:           1px;
+    border-radius:    var(mistpine-radius);
+    border-color:     var(border-color);
+    background-color: var(background);
+    padding:          0;
+}
+
+mainbox {
+    children: [ inputbar, message, listview, mode-switcher ];
+    spacing:  0;
+    padding:  0;
+}
+
+/* Prompt, filter and counter: like a picker's prompt line. */
+
+inputbar {
+    children:     [ prompt, textbox-prompt-colon, entry, num-filtered-rows, textbox-num-sep, num-rows, case-indicator ];
+    spacing:      0;
+    padding:      0.75em 1em;
+    border:       0 0 1px 0;
+    border-color: var(separatorcolor);
+}
+
+prompt {
+    text-color: var(mistpine-prompt);
+}
+
+textbox-prompt-colon {
+    str:        "❯";
+    expand:     false;
+    margin:     0 0.5em;
+    text-color: var(mistpine-prompt);
+}
+
+entry {
+    placeholder:       "Search";
+    placeholder-color: var(mistpine-muted);
+    text-color:        var(foreground);
+    cursor:            text;
+}
+
+num-filtered-rows, textbox-num-sep, num-rows, case-indicator {
+    expand:     false;
+    text-color: var(mistpine-muted);
+}
+
+textbox-num-sep {
+    str: "/";
+}
+
+case-indicator {
+    margin: 0 0 0 0.5em;
+}
+
+/* Messages (-mesg) sit on a raised surface, like a status line. */
+
+message {
+    padding:          0.5em 1em;
+    border:           0 0 1px 0;
+    border-color:     var(separatorcolor);
+    background-color: var(mistpine-message-background);
+}
+
+textbox {
+    text-color: var(mistpine-message-foreground);
+}
+
+/* Errors (rofi -e) get a red border. */
+
+error-message {
+    padding:          1em;
+    border:           1px;
+    border-radius:    var(mistpine-radius);
+    border-color:     var(mistpine-error);
+    background-color: var(background);
+}
+
+error-message textbox {
+    text-color: var(foreground);
+}
+
+/* The list. */
+
+listview {
+    lines:        8;
+    columns:      1;
+    fixed-height: true;
+    scrollbar:    true;
+    spacing:      0.25em;
+    padding:      0.5em;
+    border:       0;
+}
+
+scrollbar {
+    width:        4px;
+    handle-width: 4px;
+    handle-color: var(scrollbar-handle);
+    border:       0;
+    padding:      0;
+    margin:       0 0 0 0.5em;
+}
+
+element {
+    spacing:       0.75em;
+    padding:       0.4em 0.75em;
+    border:        0 0 0 2px;
+    border-radius: 4px;
+    border-color:  transparent;
+    cursor:        pointer;
+}
+
+element normal.normal {
+    background-color: var(normal-background);
+    text-color:       var(normal-foreground);
+    highlight:        var(highlight);
+}
+
+element alternate.normal {
+    background-color: var(alternate-normal-background);
+    text-color:       var(alternate-normal-foreground);
+    highlight:        var(highlight);
+}
+
+element normal.active {
+    background-color: var(active-background);
+    text-color:       var(active-foreground);
+    highlight:        var(highlight);
+}
+
+element alternate.active {
+    background-color: var(alternate-active-background);
+    text-color:       var(alternate-active-foreground);
+    highlight:        var(highlight);
+}
+
+element normal.urgent {
+    background-color: var(urgent-background);
+    text-color:       var(urgent-foreground);
+    highlight:        var(highlight);
+}
+
+element alternate.urgent {
+    background-color: var(alternate-urgent-background);
+    text-color:       var(alternate-urgent-foreground);
+    highlight:        var(highlight);
+}
+
+/* The selected row: a raised background and an orange caret on the left. */
+
+element selected.normal {
+    background-color: var(selected-normal-background);
+    text-color:       var(selected-normal-foreground);
+    border-color:     var(mistpine-caret);
+    highlight:        var(highlight);
+}
+
+element selected.active {
+    background-color: var(selected-active-background);
+    text-color:       var(selected-active-foreground);
+    border-color:     var(mistpine-caret);
+    highlight:        var(highlight);
+}
+
+/* Filled red: matches use the row's own text color, underlined. */
+element selected.urgent {
+    background-color: var(selected-urgent-background);
+    text-color:       var(selected-urgent-foreground);
+    border-color:     var(selected-urgent-background);
+    highlight:        bold underline;
+}
+
+element-icon {
+    size:             1.25em;
+    background-color: transparent;
+    text-color:       inherit;
+    cursor:           inherit;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    highlight:        inherit;
+    vertical-align:   0.5;
+    cursor:           inherit;
+}
+
+/* Modes (drun, run, window, …) along the bottom, as tabs. No border or
+ * padding of its own: dmenu has no modes, and an empty strip would show. */
+
+mode-switcher {
+    spacing: 0.5em;
+    margin:  0 0.5em;
+    padding: 0;
+    border:  0;
+}
+
+button {
+    padding:       0.4em;
+    margin:        0 0 0.5em 0;
+    border-radius: 4px;
+    text-color:    var(mistpine-muted);
+    cursor:        pointer;
+}
+
+/* The current mode looks like the selected row. */
+button selected {
+    background-color: var(selected-normal-background);
+    text-color:       var(selected-normal-foreground);
+}
