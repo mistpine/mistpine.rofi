@@ -20,9 +20,11 @@ import { execFileSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { loadSpec, ROOT } from "./lib/colors.ts";
-import { image } from "./lib/docker.ts";
+import { loadSpec } from "@mistpine/port-kit";
+import { image } from "@mistpine/port-kit/docker";
 import { parseRasi } from "./lib/rasi.ts";
+
+const ROOT = join(import.meta.dirname, "..");
 
 const RELEASES = { "24.04": "1.7.5", "26.04": "2.0.0" } as const;
 type Release = keyof typeof RELEASES;
@@ -38,7 +40,7 @@ function fail(message: string): never {
 
 // ---------------------------------------------------------------- expectations
 
-const { spec } = await loadSpec();
+const { spec } = await loadSpec(ROOT);
 const ui = (name: string) => {
   const hex = spec.ui[name]?.hex;
   if (!hex) fail(`the spec has no ui.${name}`);
@@ -158,7 +160,7 @@ const specColors = new Set([
 ]);
 
 for (const release of releases) {
-  const tag = image(release);
+  const tag = image({ name: "mistpine-rofi", release, context: join(ROOT, "scripts", "render") });
   const out = mkdtempSync(join(tmpdir(), "mistpine-rofi-verify-"));
   try {
     execFileSync(

@@ -21,9 +21,11 @@
 import { execFileSync } from "node:child_process";
 import { mkdirSync, readFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
-import { ROOT } from "./lib/colors.ts";
-import { image } from "./lib/docker.ts";
+
+import { image } from "@mistpine/port-kit/docker";
 import { parseRasi } from "./lib/rasi.ts";
+
+const ROOT = join(import.meta.dirname, "..");
 
 const WORK = join(ROOT, ".render");
 const ASSETS = join(ROOT, "assets");
@@ -149,7 +151,7 @@ mkdirSync(join(ASSETS, "screenshots"), { recursive: true });
 const failures: string[] = [];
 
 for (const [release, backend] of RUNS) {
-  const tag = image(release);
+  const tag = image({ name: "mistpine-rofi", release, context: join(ROOT, "scripts", "render") });
   const out = join(WORK, `${release}-${backend}`);
   mkdirSync(out, { recursive: true });
   for (const scene of SCENES) {
