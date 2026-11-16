@@ -31,6 +31,10 @@ single theme color comes out different from the spec.
 
 Requires rofi 1.7.5 or later (`rofi -v`).
 
+The spec loader, color math, banner and pixel checks come from
+[@mistpine/port-kit](https://github.com/mistpine/port-kit), shared by every
+mistpine port.
+
 ```sh
 mkdir -p ~/.local/share/rofi/themes
 curl -fsSL -o ~/.local/share/rofi/themes/mistpine.rasi \
@@ -169,5 +173,4 @@ the README.
 
 ## License
 
-[MIT](LICENSE). Outfit and JetBrains Mono (in `scripts/fonts`, for the banner)
-are under the SIL Open Font License 1.1.
+[MIT](LICENSE).

@@ -10,17 +10,19 @@
  *   pnpm generate --check  fail if either file is out of date
  *
  * Every color comes from palette/mistpine.json in the reference repository
- * (see lib/colors.ts). Both files are linted against the rasi subset rofi
+ * (read by @mistpine/port-kit). Both files are linted against the rasi subset rofi
  * 1.7.5 and 2.0 share, and every text color against the background it can
  * sit on, before anything is written.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { contrast, loadSpec, mix, ROOT, type Spec } from "./lib/colors.ts";
+import { contrast, loadSpec, mix, type Spec } from "@mistpine/port-kit";
 import { parseRasi } from "./lib/rasi.ts";
 
+const ROOT = join(import.meta.dirname, "..");
+
 const check = process.argv.includes("--check");
-const { spec, source } = await loadSpec();
+const { spec, source } = await loadSpec(ROOT);
 
 /** A palette key (`bg1`) or a spec token (`ui.panelBg`). */
 function token(key: string): { hex: string; ref?: string } {
